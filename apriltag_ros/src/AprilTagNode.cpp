@@ -81,8 +81,8 @@ AprilTagNode::AprilTagNode(rclcpp::NodeOptions options)
   td->refine_edges = declare_parameter<int>("refine-edges", true);
   tf_broadcaster_ = std::make_unique<tf2_ros::TransformBroadcaster>(this, rclcpp::QoS(10));
   // get tag names, IDs and sizes
-  const auto ids = declare_parameter<std::vector<int64_t>>("tag_ids", {});
-  const auto frames = declare_parameter<std::vector<std::string>>("tag_frames", {});
+  const auto ids = declare_parameter<std::vector<int64_t>>("tag_ids", std::vector<int64_t>({}));
+  const auto frames = declare_parameter<std::vector<std::string>>("tag_frames", std::vector<std::string>({}));
 
   if (!frames.empty()) {
     if (ids.size() != frames.size()) {
@@ -94,7 +94,7 @@ AprilTagNode::AprilTagNode(rclcpp::NodeOptions options)
       tag_frames[ids[i]] = frames[i];
     }
   }
-  const auto sizes = declare_parameter<std::vector<double>>("tag_sizes", {});
+  const auto sizes = declare_parameter<std::vector<double>>("tag_sizes", std::vector<double>({}));
   if (!sizes.empty()) {
     // use tag specific size
     if (ids.size() != sizes.size()) {
